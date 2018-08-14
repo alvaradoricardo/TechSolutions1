@@ -6,6 +6,7 @@
 package techsolution;
 
 import Clases.Producto;
+import Conexion.Conexion;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.io.BufferedWriter;
@@ -13,10 +14,19 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -31,7 +41,7 @@ public class Inventario extends javax.swing.JFrame {
     int cantidad = 0;
     double precioc = 0.0;
     double preciov = 0.0;
-    int proveedor = 0;
+    String proveedor = "";
     String ruta = "";
     URL url= null;
     ImageIcon icon = null;
@@ -75,6 +85,7 @@ public class Inventario extends javax.swing.JFrame {
         jtxtProveedor = new javax.swing.JTextField();
         btnCargar = new javax.swing.JButton();
         jLabel13 = new javax.swing.JLabel();
+        jbutModificar = new javax.swing.JButton();
         jbutGuardar = new javax.swing.JButton();
         txtNombreArchivo = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
@@ -83,7 +94,10 @@ public class Inventario extends javax.swing.JFrame {
         jbutBuscar = new javax.swing.JButton();
         jbutBorrar = new javax.swing.JButton();
         jtxtCategoria = new javax.swing.JTextField();
+        jbutReporte = new javax.swing.JButton();
+        jbutComprar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        jbutReporte1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -117,7 +131,7 @@ public class Inventario extends javax.swing.JFrame {
 
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Proveedor: ");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 450, -1, -1));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 460, -1, -1));
 
         jLabel7.setBackground(new java.awt.Color(255, 255, 255));
         jLabel7.setFont(new java.awt.Font("MOON GET!", 0, 24)); // NOI18N
@@ -139,19 +153,19 @@ public class Inventario extends javax.swing.JFrame {
 
         jLabel8.setForeground(new java.awt.Color(0, 0, 0));
         jLabel8.setText("Categoría: ");
-        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 320, -1, -1));
+        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 330, -1, -1));
 
         jLabel10.setForeground(new java.awt.Color(0, 0, 0));
         jLabel10.setText("Cantidad: ");
-        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 350, -1, -1));
+        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 370, -1, -1));
 
         jLabel11.setForeground(new java.awt.Color(0, 0, 0));
         jLabel11.setText("Precio Compra: ");
-        getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 390, -1, 20));
+        getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 400, -1, 20));
 
         jLabel12.setForeground(new java.awt.Color(0, 0, 0));
         jLabel12.setText("Precio Venta: ");
-        getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 420, -1, -1));
+        getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 430, -1, -1));
 
         jtxtCodigo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -166,10 +180,10 @@ public class Inventario extends javax.swing.JFrame {
         getContentPane().add(jtxtCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 169, 130, 30));
         getContentPane().add(jtxtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 210, 130, 40));
         getContentPane().add(jtxtDescripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 260, 130, 50));
-        getContentPane().add(jtxtCantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 350, 130, 30));
-        getContentPane().add(jtxtPrecioC, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 390, 130, -1));
-        getContentPane().add(jtxtPrecioV, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 420, 130, -1));
-        getContentPane().add(jtxtProveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 450, 130, -1));
+        getContentPane().add(jtxtCantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 360, 130, 30));
+        getContentPane().add(jtxtPrecioC, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 400, 130, -1));
+        getContentPane().add(jtxtPrecioV, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 430, 130, -1));
+        getContentPane().add(jtxtProveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 460, 130, -1));
 
         btnCargar.setText("Cargar");
         btnCargar.addActionListener(new java.awt.event.ActionListener() {
@@ -183,6 +197,14 @@ public class Inventario extends javax.swing.JFrame {
         jLabel13.setForeground(new java.awt.Color(0, 0, 0));
         jLabel13.setText("Guardar imagen");
         getContentPane().add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 220, 110, 20));
+
+        jbutModificar.setText("Modificar");
+        jbutModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbutModificarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jbutModificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 500, -1, -1));
 
         jbutGuardar.setText("Guardar producto");
         jbutGuardar.addActionListener(new java.awt.event.ActionListener() {
@@ -200,7 +222,7 @@ public class Inventario extends javax.swing.JFrame {
 
         jLabImagen.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
         jLabImagen.setForeground(new java.awt.Color(0, 0, 0));
-        getContentPane().add(jLabImagen, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 450, 90, 60));
+        getContentPane().add(jLabImagen, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 400, 70, 50));
 
         lblImagen.setForeground(new java.awt.Color(0, 0, 0));
         lblImagen.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -221,10 +243,34 @@ public class Inventario extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jbutBorrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 460, -1, -1));
-        getContentPane().add(jtxtCategoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 320, 130, 20));
+        getContentPane().add(jtxtCategoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 320, 130, 30));
+
+        jbutReporte.setText("Reporte");
+        jbutReporte.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbutReporteActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jbutReporte, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 500, -1, -1));
+
+        jbutComprar.setText("Ir a Compra...");
+        jbutComprar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbutComprarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jbutComprar, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 500, -1, -1));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/OTHER.png"))); // NOI18N
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, -1, -1));
+
+        jbutReporte1.setText("Reporte");
+        jbutReporte1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbutReporte1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jbutReporte1, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 500, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -243,7 +289,7 @@ public class Inventario extends javax.swing.JFrame {
     }//GEN-LAST:event_jtxtCodigoActionPerformed
 
     private void jbutGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbutGuardarActionPerformed
-        JFileChooser archivo = new JFileChooser();
+        /*JFileChooser archivo = new JFileChooser();
         FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivo", "txt");
         archivo.setFileFilter(filtro);
         int opcion = archivo.showSaveDialog(this);
@@ -269,6 +315,21 @@ public class Inventario extends javax.swing.JFrame {
         }
         
         mostrarImagen("/imagenes/8.png");
+        */
+p.setCodigo(Integer.parseInt(jtxtCodigo.getText()));
+p.setNombre(jtxtNombre.getText());
+p.setDescripcion(jtxtDescripcion.getText());
+p.setCategoria(jtxtCategoria.getText());
+p.setCantidad(Integer.parseInt( jtxtCantidad.getText()));
+p.setPrecioC(Double.parseDouble(jtxtPrecioC.getText()));
+p.setPrecioV(Double.parseDouble(jtxtPrecioV.getText()));
+p.setProveedor(jtxtProveedor.getText());
+if(p.guardarproducto() == 1){
+    JOptionPane.showMessageDialog(null, 
+                                    "Producto Almacenado",
+                                    "mensaje",
+                                    JOptionPane.INFORMATION_MESSAGE);
+}
     }//GEN-LAST:event_jbutGuardarActionPerformed
 
     private void btnCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarActionPerformed
@@ -311,7 +372,7 @@ public class Inventario extends javax.swing.JFrame {
                 jtxtCantidad.setText(Integer.toString(p.getCantidad()));
                 jtxtPrecioC.setText(Double.toString(p.getPrecioC()));
                 jtxtPrecioV.setText(Double.toString(p.getPrecioV()));
-                jtxtProveedor.setText(Integer.toString(p.getProveedor()));
+                jtxtProveedor.setText(p.getProveedor());
 
                 int op = Integer.parseInt(jtxtCodigo.getText());
 
@@ -321,8 +382,8 @@ public class Inventario extends javax.swing.JFrame {
                 txtNombreArchivo.setText("1.jpg");
                 break;
             case 2: 
-                this.mostrarImagen("/Imagenes/logo4.png");
-                txtNombreArchivo.setText("logo4.png");
+                this.mostrarImagen("/Imagenes/2.jpg");
+                txtNombreArchivo.setText("2.jpg");
                 break;
         } 
                         
@@ -342,7 +403,7 @@ public class Inventario extends javax.swing.JFrame {
             jtxtCantidad.setText(Integer.toString(p.getCantidad()));
             jtxtPrecioC.setText(Double.toString(p.getPrecioC()));
             jtxtPrecioV.setText(Double.toString(p.getPrecioV()));
-            jtxtProveedor.setText(Integer.toString(p.getProveedor()));
+            jtxtProveedor.setText(p.getProveedor());
 
                   int op = Integer.parseInt(jtxtCodigo.getText());
 
@@ -352,8 +413,8 @@ public class Inventario extends javax.swing.JFrame {
                 txtNombreArchivo.setText("1.jpg");
                 break;
             case 2: 
-                this.mostrarImagen("/Imagenes/logo4.png");
-                txtNombreArchivo.setText("logo4.png");
+                this.mostrarImagen("/Imagenes/2.jpg");
+                txtNombreArchivo.setText("2.jpg");
                 break;
         }
       
@@ -362,6 +423,49 @@ public class Inventario extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Producto No Encontrado", "Alerta", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jbutBuscarActionPerformed
+
+    private void jbutModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbutModificarActionPerformed
+        p.setCodigo(Integer.parseInt(jtxtCodigo.getText()));
+        p.setNombre(jtxtNombre.getText());
+        p.setCategoria(jtxtCategoria.getText());
+        p.setDescripcion(jtxtDescripcion.getText());
+        p.setCantidad(Integer.parseInt(jtxtCantidad.getText()));
+        p.setPrecioC(Double.parseDouble(jtxtPrecioC.getText()));
+        p.setPrecioV(Double.parseDouble(jtxtPrecioV.getText()));
+        if(p.modificarproducto() == 1){
+    JOptionPane.showMessageDialog(null, 
+                                    "Producto Modificado",
+                                    "mensaje",
+                                    JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_jbutModificarActionPerformed
+
+    private void jbutReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbutReporteActionPerformed
+         // TODO add your handling code here:
+        Map parameters = new HashMap();
+        parameters.put("Nombre", "Ricardo Alvarado");
+        try{
+            JasperReport report = JasperCompileManager.compileReport("C:\\Users\\rical\\Documents\\NetBeansProjects\\nuevo\\TechSolution\\TechSolution\\src\\reportes\\newReport.jrxml");
+            
+            JasperPrint print = JasperFillManager.fillReport(report, parameters, new Conexion().ConectarBD());
+            
+            JasperExportManager.exportReportToPdfFile(print, "C:\\Users\\rical\\Documents\\NetBeansProjects\\nuevo\\TechSolution\\TechSolution\\src\\reportes\\Prueba.pdf");
+            
+            JasperViewer.viewReport(print, false);
+        }
+        catch (JRException e){
+            System.out.println("Error al generar el reporte "+ e);
+        }
+    }//GEN-LAST:event_jbutReporteActionPerformed
+
+    private void jbutReporte1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbutReporte1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbutReporte1ActionPerformed
+
+    private void jbutComprarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbutComprarActionPerformed
+        // TODO add yo
+          
+    }//GEN-LAST:event_jbutComprarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -400,7 +504,8 @@ public class Inventario extends javax.swing.JFrame {
     public void mostrarImagen(String urlImagen){
     url = this.getClass().getResource(urlImagen);
     icon = new ImageIcon(url);
-     jLabImagen.setIcon(icon);
+    
+     lblImagen.setIcon(icon);
      // jLabImagen.setText("Opción : "+ opcion + "Texto : "+ cadena);
     }
 
@@ -424,7 +529,11 @@ public class Inventario extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JButton jbutBorrar;
     private javax.swing.JButton jbutBuscar;
+    private javax.swing.JButton jbutComprar;
     private javax.swing.JButton jbutGuardar;
+    private javax.swing.JButton jbutModificar;
+    private javax.swing.JButton jbutReporte;
+    private javax.swing.JButton jbutReporte1;
     private javax.swing.JTextField jtxtCantidad;
     private javax.swing.JTextField jtxtCategoria;
     private javax.swing.JTextField jtxtCodigo;

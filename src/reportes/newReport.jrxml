@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4ad10300-7d6d-4572-8737-118eb5bda5b7">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="Nombre" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select * from producto]]>
+	</queryString>
+	<field name="codigo" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="descripcion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="categoria" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cantidad" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="precioC" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="precioV" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="proveedor" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<rectangle radius="10">
+				<reportElement x="0" y="0" width="555" height="79" backcolor="#FFFF00" uuid="0dc7455a-ed88-4886-a1b6-2e6c71f584f5"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="15" y="12" width="135" height="34" uuid="b22dfb0e-f00b-4220-a169-15beb0b50e66"/>
+				<textElement>
+					<font size="16"/>
+				</textElement>
+				<text><![CDATA[PRODUCTOS]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="455" y="0" width="100" height="20" uuid="06af7562-7a48-4ecc-8664-6c3b38a36c4f"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="58" y="9" width="100" height="20" uuid="04922443-8b2f-4b18-accd-a610c6cf7c4c"/>
+				<textFieldExpression><![CDATA[$P{Nombre}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="88" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="2" width="100" height="20" uuid="afc59bda-06b3-45ae-8e7f-f9c812277387"/>
+				<text><![CDATA[codigo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="2" width="100" height="20" uuid="5a4a0c62-8df1-47a1-bc5c-085dec00f3d4"/>
+				<text><![CDATA[nombre]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="400" y="2" width="100" height="20" uuid="6487f230-0d81-4107-adcc-2199dd18b951"/>
+				<text><![CDATA[cantidad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="200" y="2" width="100" height="20" uuid="7fb15fc0-b6e0-4ed5-b928-d951d3f6f396"/>
+				<text><![CDATA[descripcion]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="300" y="2" width="100" height="20" uuid="992f49db-2d68-4a55-9ba4-cdf6be57cd61"/>
+				<text><![CDATA[categoria]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="300" y="22" width="100" height="20" uuid="2bbe61e4-b02f-4758-963e-fb802cc37c3e"/>
+				<text><![CDATA[precioV]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="200" y="22" width="100" height="20" uuid="f5b19e0a-e6c0-4a1e-8d2f-cc23a7dc455d"/>
+				<text><![CDATA[precioC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="400" y="21" width="100" height="20" uuid="b9141d74-d6d5-41dd-99fe-f57527f63cc1"/>
+				<text><![CDATA[proveedor]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="59" splitType="Stretch">
+			<textField>
+				<reportElement x="200" y="25" width="100" height="20" uuid="2ef8d5be-0024-4681-89fd-4822df9d4be8"/>
+				<textFieldExpression><![CDATA[$F{precioC}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="300" y="25" width="100" height="20" uuid="d600b3f7-a9a8-4089-99e5-c5ccf55ad45e"/>
+				<textFieldExpression><![CDATA[$F{precioV}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="400" y="25" width="100" height="20" uuid="23ab7d21-5bfe-43a5-95f5-ab997d854a3d"/>
+				<textFieldExpression><![CDATA[$F{proveedor}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="100" height="20" uuid="4deacc08-70e9-4852-af37-a98ea052238c"/>
+				<textFieldExpression><![CDATA[$F{codigo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="0" width="100" height="20" uuid="7200b311-fa95-4ee7-93bd-17aee4c43f31"/>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="200" y="0" width="100" height="20" uuid="818205a2-3f00-4970-b440-17161271fcd5"/>
+				<textFieldExpression><![CDATA[$F{descripcion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="300" y="0" width="100" height="20" uuid="19d6b6a1-c1db-41df-b149-e2e3eba25b20"/>
+				<textFieldExpression><![CDATA[$F{categoria}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="400" y="0" width="100" height="20" uuid="5f7175fe-57e0-4e20-8e74-edea6cb4ee40"/>
+				<textFieldExpression><![CDATA[$F{cantidad}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
